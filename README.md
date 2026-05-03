@@ -9,4 +9,4 @@ This is a React project demo created by following a tutorial/ crash course from 
 - Star SVG vector by [SVG Repo](https://www.svgrepo.com/svg/302554/star)
 - Search SVG vector by [SVG Repo](https://www.svgrepo.com/svg/474980/search)
 - Spinner component by [Flowbite](https://flowbite.com/docs/components/spinner/)
-- Dot Symbol from [symbolsDB](https://symbolsdb.com/dot-symbol)
+- Dot symbol from [symbolsDB](https://symbolsdb.com/dot-symbol)
