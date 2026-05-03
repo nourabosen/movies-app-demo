@@ -1,8 +1,9 @@
 import React from 'react'
+import MovieLink from './MovieLink'
 
-const MovieCard = ({movie: {title, vote_average, poster_path, release_date, original_language}}) => {
+const MovieCard = ({movie: {id, title, vote_average, poster_path, release_date, original_language}}) => {
   return (
-    <div className='movie-card'>
+    <div className='movie-card' onClick={() => MovieLink(id)}>
         <img src={poster_path ? `https://image.tmdb.org/t/p/w500/${poster_path}`: '/no-movie.png'}/>
         <div className='mt-4'>
             <h3>{title}</h3>
@@ -20,5 +21,6 @@ const MovieCard = ({movie: {title, vote_average, poster_path, release_date, orig
     </div>
   )
 }
+
 
 export default MovieCard
