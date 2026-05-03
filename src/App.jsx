@@ -36,11 +36,11 @@ const App = () => {
 
             
             if(!response.ok) {
-                throw new Error("Faield to fetch the movies. Told ya be smarter")
+                throw new Error("Failed to fetch the movies")
             }
             const data = await response.json()
             if(data.Response == 'False'){
-                setErrorMessage(data.Error || "Failed to fetch the movies, idiot");
+                setErrorMessage(data.Error || "Failed to fetch the movies. Please try again.");
                 setMovieList([]);
                 return;
             }
@@ -52,7 +52,7 @@ const App = () => {
         }
         catch (error){
             console.error(`Error fetching movies: ${error}`);
-            setErrorMessage('Error fetching movies. Be smarter');
+            setErrorMessage('Error fetching movies');
         } finally {
             setIsLoading(false);
         }
@@ -65,7 +65,7 @@ const App = () => {
 
             setTrendingMovies(movies);
         } catch (error) {
-            console.log(`Error fetching trending movies: ${error}, idiot`);
+            console.log(`Error fetching trending movies: ${error}`);
         }
     }
     
