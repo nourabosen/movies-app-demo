@@ -1,13 +1,15 @@
 exports.handler = async (event, context) => {
   // Use the native global fetch available in Node 18+
   const query = event.queryStringParameters?.query;
-  const apiKey = process.env.TMDB_API_KEY;
+  
+  // Changed to match your requirement: using VITE_ prefix
+  const apiKey = process.env.VITE_TMDB_API_KEY; 
   const apiBaseUrl = "https://api.themoviedb.org/3";
 
   if (!apiKey) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "TMDB_API_KEY is not configured on the server" }),
+      body: JSON.stringify({ error: "VITE_TMDB_API_KEY is not configured on the server" }),
     };
   }
 
