@@ -6,8 +6,6 @@ import {useDebounce} from 'react-use';
 import { getTrendingMovies, updateSearchCount, getFavMovies } from './appwrite';
 import MovieLink from './components/MovieLink';
 
-const API_BASE_URL = "/.netlify/functions/movies";
-
 const App = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [errorMessage, setErrorMessage] = useState("")
@@ -24,11 +22,21 @@ const App = () => {
         setErrorMessage('');
 
         try {
-            // FORCE PROXY: We use the proxy for both local and production 
-            // to ensure we never call TMDB directly from the client in a way that fails.
-            const endpoint = query 
-                ? `${API_BASE_URL}?query=${encodeURIComponent(query)}` 
-                : `${API_BASE_URL}`;
+            let endpoint;
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+            if (isLocal) {
+                // LOCAL MODE: Call TMDB directly using the VITE_ key from .env
+                const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+                endpoint = query 
+                    ? `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}` 
+                    : `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc`;
+            } else {
+                // PRODUCTION MODE: Use the Netlify Proxy
+                endpoint = query 
+                    ? `/.netlify/functions/movies?query=${encodeURIComponent(query)}` 
+                    : `/.netlify/functions/movies`;
+            }
             
             const response = await fetch(endpoint);
             
