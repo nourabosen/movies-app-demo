@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Search from './components/Search';
 import Spinner from './components/Spinner';
 import MovieCard from './components/MovieCard';
@@ -6,7 +6,16 @@ import {useDebounce} from 'react-use';
 import { getTrendingMovies, updateSearchCount, getFavMovies } from './appwrite';
 import MovieLink from './components/MovieLink';
 
-const TMDB_PROXY_URL = '/.netlify/functions/tmdb-proxy';
+const API_BASE_URL = "https://api.themoviedb.org/3";
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
+const API_OPTIONS = {
+    method: 'GET',
+    headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${API_KEY}`
+    }
+}
 
 const App = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -24,9 +33,9 @@ const App = () => {
         setErrorMessage('');
 
         try {
-            const endpoint = query ? `${TMDB_PROXY_URL}?q=${encodeURIComponent(query)}` : TMDB_PROXY_URL;
+            const endpoint = query ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}` : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
             
-            const response = await fetch(endpoint)
+            const response = await fetch(endpoint, API_OPTIONS)
 
             
             if(!response.ok) {
@@ -40,7 +49,7 @@ const App = () => {
             }
             setMovieList(data.results || [])
 
-            if(query && data.results?.length > 0){
+            if(query && data.results.length > 0){
                 await updateSearchCount(query, data.results[0]);
             }
         }
