@@ -22,17 +22,19 @@ const App = () => {
         setErrorMessage('');
 
         try {
-            let endpoint;
             const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            let endpoint;
 
             if (isLocal) {
-                // LOCAL MODE: Call TMDB directly using the VITE_ key from .env
                 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+                if (!apiKey) {
+                    console.error("CRITICAL: VITE_TMDB_API_KEY is undefined! Check your .env file.");
+                    throw new Error("API Key missing in local environment");
+                }
                 endpoint = query 
                     ? `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}` 
                     : `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc`;
             } else {
-                // PRODUCTION MODE: Use the Netlify Proxy
                 endpoint = query 
                     ? `/.netlify/functions/movies?query=${encodeURIComponent(query)}` 
                     : `/.netlify/functions/movies`;
@@ -58,10 +60,11 @@ const App = () => {
         }
         catch (error){
             console.error(`Error fetching movies: ${error}`);
-            setErrorMessage('Error fetching movies');
+            setErrorMessage(error.message || 'Error fetching movies');
         } finally {
             setIsLoading(false);
         }
+    }
     }
 
     const loadTrendingMovies = async () => {
