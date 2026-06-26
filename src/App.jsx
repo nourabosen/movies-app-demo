@@ -24,22 +24,25 @@ const App = () => {
         setErrorMessage('');
 
         try {
-            const endpoint = import.meta.env.PROD 
-                ? (query ? `${API_BASE_URL}?query=${encodeURIComponent(query)}` : `${API_BASE_URL}`)
-                : (query ? `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${encodeURIComponent(query)}` : `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&sort_by=popularity.desc`);
+            // FORCE PROXY: We use the proxy for both local and production 
+            // to ensure we never call TMDB directly from the client in a way that fails.
+            const endpoint = query 
+                ? `${API_BASE_URL}?query=${encodeURIComponent(query)}` 
+                : `${API_BASE_URL}`;
             
-            const response = await fetch(endpoint)
+            const response = await fetch(endpoint);
             
             if(!response.ok) {
-                throw new Error("Failed to fetch the movies")
+                throw new Error(`Server responded with ${response.status}`);
             }
-            const data = await response.json()
+            const data = await response.json();
+            
             if(data.Response == 'False'){
                 setErrorMessage(data.Error || "Failed to fetch the movies. Please try again.");
                 setMovieList([]);
                 return;
             }
-            setMovieList(data.results || [])
+            setMovieList(data.results || []);
 
             if(query && data.results.length > 0){
                 await updateSearchCount(query, data.results[0]);
