@@ -6,9 +6,7 @@ import {useDebounce} from 'react-use';
 import { getTrendingMovies, updateSearchCount, getFavMovies } from './appwrite';
 import MovieLink from './components/MovieLink';
 
-const API_BASE_URL = import.meta.env.PROD 
-    ? "/.netlify/functions/movies" 
-    : `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}`;
+const API_BASE_URL = "/.netlify/functions/movies";
 
 const App = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -31,7 +29,6 @@ const App = () => {
                 : (query ? `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${encodeURIComponent(query)}` : `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&sort_by=popularity.desc`);
             
             const response = await fetch(endpoint)
-
             
             if(!response.ok) {
                 throw new Error("Failed to fetch the movies")
@@ -54,13 +51,11 @@ const App = () => {
         } finally {
             setIsLoading(false);
         }
-        
     }
 
     const loadTrendingMovies = async () => {
         try {
             const movies = await getTrendingMovies();
-
             setTrendingMovies(movies);
         } catch (error) {
             console.log(`Error fetching trending movies: ${error}`);
@@ -70,13 +65,11 @@ const App = () => {
     const loadFavMovies = async () => {
         try {
             const movies = await getFavMovies();
-
             setFavMovies(movies);
         } catch (error) {
             console.log(`Error fetching favourite movies: ${error}`);
         }
     }
-    
     
     useEffect(()=>{
         fetchMovies(debouncedSearchTerm);
@@ -113,8 +106,7 @@ const App = () => {
                                     <p>{index + 1}</p>
                                     <img src={movie.poster_url} alt={movie.title} onClick={() => MovieLink(movie.movie_id)}/>
                                 </li>
-                            )
-                            )}
+                            ))}
                         </ul>
                     </section>
                 )}
@@ -128,8 +120,7 @@ const App = () => {
                                     <p>{index + 1}</p>
                                     <img src={movie.poster_url} alt={movie.title} onClick={() => MovieLink(movie.movie_id)}/>
                                 </li>
-                            )
-                            )}
+                            ))}
                         </ul>
                     </section>
                 )}
@@ -146,12 +137,11 @@ const App = () => {
                                 <MovieCard key={movie.id} movie={movie}/>
                             ))}
                         </ul>
-                    )
-                }
+                    )}
                 </section>
             </div>
         </main>
-  )
+    )
 }
 
 export default App
