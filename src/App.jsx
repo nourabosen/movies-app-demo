@@ -25,7 +25,9 @@ const App = () => {
         setErrorMessage('');
 
         try {
-            const endpoint = query ? `${API_BASE_URL}?query=${encodeURIComponent(query)}` : `${API_BASE_URL}`;\n            \n            const response = await fetch(endpoint)
+            const endpoint = query ? `${API_BASE_URL}?query=${encodeURIComponent(query)}` : `${API_BASE_URL}`;
+            
+            const response = await fetch(endpoint)
 
             
             if(!response.ok) {
