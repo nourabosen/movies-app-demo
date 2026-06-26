@@ -1,7 +1,6 @@
-const fetch = require('node-fetch');
-
 exports.handler = async (event, context) => {
-  const query = event.queryStringParameters.query;
+  // Use the native global fetch available in Node 18+
+  const query = event.queryStringParameters?.query;
   const apiKey = process.env.TMDB_API_KEY;
   const apiBaseUrl = "https://api.themoviedb.org/3";
 
@@ -18,17 +17,28 @@ exports.handler = async (event, context) => {
       : `${apiBaseUrl}/discover/movie?api_key=${apiKey}&sort_by=popularity.desc`;
 
     const response = await fetch(endpoint);
+    
+    if (!response.ok) {
+      return {
+        statusCode: response.status,
+        body: JSON.stringify({ error: `TMDB API responded with status ${response.status}` }),
+      };
+    }
+
     const data = await response.json();
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*" 
+      },
       body: JSON.stringify(data),
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Failed to fetch movies from TMDB" }),
+      body: JSON.stringify({ error: `Server error: ${error.message}` }),
     };
   }
 };
