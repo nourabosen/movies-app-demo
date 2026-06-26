@@ -6,8 +6,9 @@ import {useDebounce} from 'react-use';
 import { getTrendingMovies, updateSearchCount, getFavMovies } from './appwrite';
 import MovieLink from './components/MovieLink';
 
-const API_BASE_URL = "/.netlify/functions/movies";
-
+const API_BASE_URL = import.meta.env.PROD 
+    ? "/.netlify/functions/movies" 
+    : `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}`;
 
 const App = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -25,7 +26,9 @@ const App = () => {
         setErrorMessage('');
 
         try {
-            const endpoint = query ? `${API_BASE_URL}?query=${encodeURIComponent(query)}` : `${API_BASE_URL}`;
+            const endpoint = import.meta.env.PROD 
+                ? (query ? `${API_BASE_URL}?query=${encodeURIComponent(query)}` : `${API_BASE_URL}`)
+                : (query ? `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${encodeURIComponent(query)}` : `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&sort_by=popularity.desc`);
             
             const response = await fetch(endpoint)
 
