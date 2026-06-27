@@ -1,4 +1,4 @@
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   // Use the native global fetch available in Node 18+
   const query = event.queryStringParameters?.query;
   

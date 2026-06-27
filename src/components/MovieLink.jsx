@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 const BASE_URL='https://www.themoviedb.org/movie/'
 

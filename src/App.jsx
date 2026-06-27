@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Search from './components/Search';
 import Spinner from './components/Spinner';
 import MovieCard from './components/MovieCard';
 import {useDebounce} from 'react-use';
 import { getTrendingMovies, updateSearchCount, getFavMovies } from './appwrite';
 import MovieLink from './components/MovieLink';
+
+const API_BASE_URL = "/.netlify/functions/movies";
 
 const App = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -28,16 +30,15 @@ const App = () => {
             if (isLocal) {
                 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
                 if (!apiKey) {
-                    console.error("CRITICAL: VITE_TMDB_API_KEY is undefined! Check your .env file.");
-                    throw new Error("API Key missing in local environment");
+                    throw new Error("VITE_TMDB_API_KEY is missing from .env");
                 }
                 endpoint = query 
                     ? `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}` 
                     : `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc`;
             } else {
                 endpoint = query 
-                    ? `/.netlify/functions/movies?query=${encodeURIComponent(query)}` 
-                    : `/.netlify/functions/movies`;
+                    ? `${API_BASE_URL}?query=${encodeURIComponent(query)}` 
+                    : `${API_BASE_URL}`;
             }
             
             const response = await fetch(endpoint);
@@ -65,7 +66,6 @@ const App = () => {
             setIsLoading(false);
         }
     }
-    }
 
     const loadTrendingMovies = async () => {
         try {
@@ -86,15 +86,24 @@ const App = () => {
     }
     
     useEffect(()=>{
-        fetchMovies(debouncedSearchTerm);
+        const executeFetch = async () => {
+            await fetchMovies(debouncedSearchTerm);
+        };
+        executeFetch();
     }, [debouncedSearchTerm]);
     
     useEffect(()=>{
-        loadTrendingMovies();
+        const executeTrending = async () => {
+            await loadTrendingMovies();
+        };
+        executeTrending();
     }, []);
-
+    
     useEffect(()=>{
-        loadFavMovies();
+        const executeFavs = async () => {
+            await loadFavMovies();
+        };
+        executeFavs();
     }, []);
 
     return (

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import MovieLink from './MovieLink'
 
 const MovieCard = ({movie: {id, title, vote_average, poster_path, release_date, original_language}}) => {
