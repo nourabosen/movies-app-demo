@@ -14,7 +14,12 @@ A high-performance movie discovery application that allows users to explore tren
 - **API**: The Movie Database (TMDB)
 - **Deployment**: Netlify (including Netlify Functions for secure API proxying)
 
-## ⚙️ Installation & Setup
+## 🌐 Deployment Note
+**Note for users in Egypt**: Due to regional ISP restrictions, `*.netlify.app` domains are currently blocked. If the live demo link does not load, please be assured that the site is fully operational. You can verify this by running the project locally or using a VPN.
+
+---
+
+
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/nourabosen/movies-app-demo.git
