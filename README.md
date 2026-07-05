@@ -31,12 +31,13 @@ A high-performance movie discovery application that allows users to explore tren
 3. **Environment Configuration**:
    Create a `.env` file in the root directory and add the following:
    ```env
+   TMDB_API_KEY=your_tmdb_api_key
    APPWRITE_ENDPOINT=your_appwrite_endpoint
    APPWRITE_PROJECT_ID=your_project_id
+   APPWRITE_PROJECT_NAME=your_project_name
    APPWRITE_DATABASE_ID=your_database_id
    APPWRITE_METRICS_ID=your_metrics_collection_id
-   APPWRITE_API_KEY=your_server_api_key
-   TMDB_API_KEY=your_tmdb_api_key
+   APPWRITE_FAV_ID=your_favorites_collection_id
    ```
 4. **Run the application**:
    ```bash
