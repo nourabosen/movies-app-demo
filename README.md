@@ -12,7 +12,7 @@ A high-performance movie discovery application that allows users to explore tren
 - **Frontend**: React, Tailwind CSS, Vite
 - **Backend/Database**: Appwrite (BaaS)
 - **API**: The Movie Database (TMDB)
-- **Deployment**: Netlify (including Netlify Functions for secure API proxying)
+- **Deployment**: Vercel (including a serverless API route for secure API proxying)
 
 ## 🌐 Deployment Note
 **Note for users in Egypt**: Due to regional ISP restrictions, `*.netlify.app` domains are currently blocked. If the live demo link does not load, please be assured that the site is fully operational. You can verify this by running the project locally or using a VPN.
@@ -31,11 +31,12 @@ A high-performance movie discovery application that allows users to explore tren
 3. **Environment Configuration**:
    Create a `.env` file in the root directory and add the following:
    ```env
-   VITE_APPWRITE_PROJECT_ID=your_project_id
-   VITE_APPWRITE_DATABASE_ID=your_database_id
-   VITE_APPWRITE_METRICS_ID=your_metrics_collection_id
-   VITE_APPWRITE_ENDPOINT=your_appwrite_endpoint
-   VITE_TMDB_API_KEY=your_tmdb_api_key
+   APPWRITE_ENDPOINT=your_appwrite_endpoint
+   APPWRITE_PROJECT_ID=your_project_id
+   APPWRITE_DATABASE_ID=your_database_id
+   APPWRITE_METRICS_ID=your_metrics_collection_id
+   APPWRITE_API_KEY=your_server_api_key
+   TMDB_API_KEY=your_tmdb_api_key
    ```
 4. **Run the application**:
    ```bash

@@ -24,22 +24,9 @@ const App = () => {
         setErrorMessage('');
 
         try {
-            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            let endpoint;
-
-            if (isLocal) {
-                const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-                if (!apiKey) {
-                    throw new Error("VITE_TMDB_API_KEY is missing from .env");
-                }
-                endpoint = query 
-                    ? `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}` 
-                    : `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc`;
-            } else {
-                endpoint = query 
-                    ? `${API_BASE_URL}?query=${encodeURIComponent(query)}` 
-                    : `${API_BASE_URL}`;
-            }
+            const endpoint = query
+                ? `${API_BASE_URL}?query=${encodeURIComponent(query)}`
+                : API_BASE_URL;
             
             const response = await fetch(endpoint);
             

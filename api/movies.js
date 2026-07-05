@@ -2,11 +2,11 @@ const API_BASE_URL = "https://api.themoviedb.org/3";
 
 export default async function handler(request, response) {
   const { query } = request.query;
-  const apiKey = process.env.VITE_TMDB_API_KEY;
+  const apiKey = process.env.TMDB_API_KEY;
 
   if (!apiKey) {
     return response.status(500).json({
-      error: "VITE_TMDB_API_KEY is not configured on the server",
+      error: "TMDB_API_KEY is not configured on the server",
     });
   }
 
