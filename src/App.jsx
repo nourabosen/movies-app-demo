@@ -6,7 +6,7 @@ import {useDebounce} from 'react-use';
 import { getTrendingMovies, updateSearchCount, getFavMovies } from './appwrite';
 import MovieLink from './components/MovieLink';
 
-const API_BASE_URL = "/.netlify/functions/movies";
+const API_BASE_URL = "/api/movies";
 
 const App = () => {
     const [searchTerm, setSearchTerm] = useState("");

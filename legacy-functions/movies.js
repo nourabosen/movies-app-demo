@@ -1,9 +1,9 @@
 exports.handler = async (event) => {
   // Use the native global fetch available in Node 18+
   const query = event.queryStringParameters?.query;
-  
+
   // Changed to match your requirement: using VITE_ prefix
-  const apiKey = process.env.VITE_TMDB_API_KEY; 
+  const apiKey = process.env.VITE_TMDB_API_KEY;
   const apiBaseUrl = "https://api.themoviedb.org/3";
 
   if (!apiKey) {
@@ -14,12 +14,12 @@ exports.handler = async (event) => {
   }
 
   try {
-    const endpoint = query 
-      ? `${apiBaseUrl}/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}` 
+    const endpoint = query
+      ? `${apiBaseUrl}/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`
       : `${apiBaseUrl}/discover/movie?api_key=${apiKey}&sort_by=popularity.desc`;
 
     const response = await fetch(endpoint);
-    
+
     if (!response.ok) {
       return {
         statusCode: response.status,
@@ -31,9 +31,9 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*" 
+        "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(data),
     };

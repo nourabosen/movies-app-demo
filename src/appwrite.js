@@ -40,6 +40,7 @@ export const getTrendingMovies = async () => {
         return result.documents;
     } catch (error) {
         console.log(error)
+        return [];
     }
 }
 
@@ -51,5 +52,6 @@ export const getFavMovies = async () => {
         return result.documents;
     } catch (error) {
         console.log(error)
+        return [];
     }
 }
